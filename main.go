@@ -58,6 +58,7 @@ func main() {
 	}
 
 	runLoop(conf.ScrapeInterval, func() (ok bool) {
+		ok = true
 		for _, camera := range conf.Cameras {
 			if err := scrapeCamera(db, conf.FrigateURL, camera); err != nil {
 				log.Printf("error scraping camera %q: %s", camera, err)
@@ -70,7 +71,6 @@ func main() {
 
 func scrapeCamera(db *pgx.Conn, baseURL, cameraName string) error {
 	start := time.Now()
-	log.Printf("starting to scrape motion events for camera %q", cameraName)
 	defer log.Printf("finished scraping motion events for camera %q in %s", cameraName, time.Since(start))
 
 	var queryStart time.Time
