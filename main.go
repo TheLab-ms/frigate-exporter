@@ -85,7 +85,7 @@ func scrapeCamera(db *pgx.Conn, baseURL, cameraName string) error {
 		return err
 	}
 	for _, event := range events {
-		_, err := db.Exec("INSERT INTO motion (id, camera, start, stop) VALUES ($1, $2, $3, $4) ON CONFLICT DO NOTHING", event.ID, cameraName, time.Unix(int64(event.StartTime), 0), time.Unix(int64(event.StartTime), 0))
+		_, err := db.Exec("INSERT INTO motion (id, camera, start, stop) VALUES ($1, $2, $3, $4) ON CONFLICT DO NOTHING", event.ID, cameraName, time.Unix(int64(event.StartTime), 0), time.Unix(int64(event.EndTime), 0))
 		if err != nil {
 			return fmt.Errorf("inserting motion event into database: %s", err)
 		}
